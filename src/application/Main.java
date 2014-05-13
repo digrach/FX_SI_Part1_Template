@@ -2,7 +2,7 @@
 // Space Invaders Assignment Part 1.
 // Provided implementation.
 
-// Your name and student number here
+// Your name and student number here <-- <-- <--
 
 package application;
 
@@ -31,7 +31,7 @@ public class Main extends Application {
 
 
 	// Attributes of this class.
-	private String MY_NAME_AND_STUDENT_NUMBER = "Rachael Colley 007"; // <-- change this to you <-- <-- <--
+	private final String MY_NAME_AND_STUDENT_NUMBER = "Rachael Colley 007"; // <-- change this to you <-- <-- <--
 	private FlowPane rootLayout;
 	private Canvas drawingCanvas;
 	private GraphicsContext graphicsObject;
@@ -154,7 +154,7 @@ public class Main extends Application {
 		};
 
 		timer.start();
-		//////
+		
 	}
 
 
@@ -355,6 +355,7 @@ public class Main extends Application {
 
 
 
+	// Placeholder animation. Locate the statement in gameloop() to remove it.
 	private List<Projectile> northAnimList = new ArrayList<Projectile>();
 	private List<Projectile> southAnimList = new ArrayList<Projectile>();
 	public void placeHolderAnimation() {
