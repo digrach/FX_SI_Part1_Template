@@ -51,6 +51,9 @@ public class Main extends Application {
 	// used by aliens and spaceship.
 	private double gameAssetWidth;
 	private double gameAssetHeight;
+	
+	private boolean gameOver;
+
 
 
 
@@ -87,6 +90,7 @@ public class Main extends Application {
 		playerScore = 0;
 		gameAssetWidth = 0;
 		gameAssetHeight = 0;
+		gameOver = false;
 		initialiseGameAssetDimensions();
 		initialiseSpaceShipPosition();
 		initialiseAlienFleetPosition();
@@ -146,6 +150,7 @@ public class Main extends Application {
 				draw();
 				update();
 				checkForCollision();
+				isGameOver();
 
 				placeHolderAnimation(); // <-- REMOVE THIS LINE <-- <--
 
@@ -184,7 +189,7 @@ public class Main extends Application {
 	public void checkForCollision() {
 		// Implementation provided. No need to alter.
 		detectProjectileCollisionWithAlien();
-		detectProjectileCollisionWithSpaceship();
+		detectAlienCollisionWithSpaceship();
 	}
 
 
@@ -215,6 +220,34 @@ public class Main extends Application {
 					currentProjectile.getHeight());
 		}
 	}
+	
+	
+	
+	
+	
+	
+	public void moveFleetEast(double travelIncrement) {
+		// Implementation not required for part 1.
+	}
+
+
+
+
+
+	public void moveFleetWest(double travelIncrement) {
+		// Implementation not required for part 1.
+	}
+
+
+
+
+
+	public void moveFleetSouth() {
+		// Implementation not required for part 1.
+	}
+
+	
+	
 
 
 
@@ -333,12 +366,23 @@ public class Main extends Application {
 
 
 
-	public void detectProjectileCollisionWithSpaceship() {
+	public void detectAlienCollisionWithSpaceship() {
 		// Implementation not required for part 1.
 	}
 
 
-
+	
+	
+	
+	public boolean isGameOver() {
+		// Implementation not required for part 1.
+		
+		return false;
+	}
+	
+	
+	
+	
 
 	public void gameOver() {
 		// Implementation not required for part 1.
