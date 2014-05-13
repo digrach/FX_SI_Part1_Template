@@ -8,6 +8,8 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -55,6 +57,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		// Implementation provided. No need to alter.
+
 		try {
 			rootLayout = new FlowPane();
 			drawingCanvas = new Canvas(CANVAS_WIDTH,CANVAS_HEIGHT);
@@ -63,8 +66,10 @@ public class Main extends Application {
 			scene = new Scene(rootLayout,CANVAS_WIDTH,CANVAS_HEIGHT);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
+
 			initialise(); 
 			gameLoop(); 
+
 
 			primaryStage.setTitle(MY_NAME_AND_STUDENT_NUMBER);
 			primaryStage.setScene(scene);
@@ -94,8 +99,6 @@ public class Main extends Application {
 
 	public void initialiseGameAssetDimensions() {
 		// Required.
-		gameAssetWidth = CANVAS_WIDTH / GAME_ASSET_WIDTH_DIVISOR;
-		gameAssetHeight = GAME_ASSET_HEIGHT_PERCENTAGE * gameAssetWidth;
 	}
 
 
@@ -103,10 +106,6 @@ public class Main extends Application {
 
 	public void initialiseSpaceShipPosition() {
 		// Required.
-		double middleCoordinate = makeMiddleXCoord();
-		double x = middleCoordinate - (gameAssetWidth / 2);
-		double y = CANVAS_HEIGHT - (gameAssetHeight * 2);
-		spaceShip = new SpaceShip(gameAssetWidth, gameAssetHeight, x,y);
 	}
 
 
@@ -114,7 +113,7 @@ public class Main extends Application {
 
 	public double makeMiddleXCoord() {
 		// Required.
-		return CANVAS_WIDTH / 2;
+		return 0;
 	}
 
 
@@ -137,6 +136,7 @@ public class Main extends Application {
 
 
 
+
 	public void gameLoop() {
 		// Implementation provided. No need to alter.
 		AnimationTimer timer = new AnimationTimer() {
@@ -146,6 +146,8 @@ public class Main extends Application {
 				draw();
 				update();
 				checkForCollision();
+
+				placeHolderAnimation(); // <-- REMOVE THIS LINE <-- <--
 
 			}
 
@@ -189,8 +191,6 @@ public class Main extends Application {
 
 	public void drawSpaceShip() {
 		// Required.
-		graphicsObject.setFill(Color.BLACK);
-		graphicsObject.fillRect(spaceShip.getCurrentX(), spaceShip.getCurrentY(), spaceShip.getWidth(), spaceShip.getHeight());
 	}
 
 
@@ -226,7 +226,7 @@ public class Main extends Application {
 
 
 	public void updateProjectiles() {
-		// No need to alter.
+		// Implementation provided. No need to alter.
 		Iterator<Projectile> i = projectileList.iterator();
 		while (i.hasNext()) {
 			Projectile currentProjectile = i.next();
@@ -253,15 +253,15 @@ public class Main extends Application {
 				if (ke.getCode() == KeyCode.SPACE) {
 					System.out.println("Shoot from here");
 					// Here...
-					fireProjectile();
+
 				} else if (ke.getCode() == KeyCode.RIGHT) {
 					System.out.println("Move east from here");
-					updateSpaceShipPosition("east");
 					// Here...
+
 				} else if (ke.getCode() == KeyCode.LEFT) {
 					System.out.println("Move west from here");
-					updateSpaceShipPosition("west");
 					// Here...
+
 				} 
 
 			}
@@ -276,11 +276,8 @@ public class Main extends Application {
 
 	public boolean checkForWestEdge(double currentXCoord) {
 		// Required.
-		boolean detected = false;
-		if (currentXCoord <= 0) {
-			detected = true;
-		}
-		return detected;
+
+		return false;
 	}
 
 
@@ -289,11 +286,8 @@ public class Main extends Application {
 
 	public boolean checkForEastEdge(double currentXCoord, double widthToCheck) {
 		// Required.
-		boolean detected = false;
-		if (currentXCoord  + widthToCheck >= CANVAS_WIDTH) {
-			detected = true;
-		}
-		return detected;
+
+		return false;
 	}
 
 
@@ -302,28 +296,6 @@ public class Main extends Application {
 
 	public void updateSpaceShipPosition(String direction) {
 		// Required.
-
-		double axisLength = CANVAS_WIDTH;
-		double travelIncrement = spaceShip.getTravelRate() * axisLength;
-		double updatedX = 0;
-
-		if (direction.equals("west")) {
-			updatedX = spaceShip.getCurrentX() - travelIncrement;
-			if (checkForWestEdge(updatedX)) {
-				spaceShip.setCurrentX(0);
-			} else {
-				spaceShip.setCurrentX(updatedX);
-			}
-		}
-
-		if (direction.equals("east")) {
-			updatedX = spaceShip.getCurrentX() + travelIncrement;
-			if (checkForEastEdge(updatedX, spaceShip.getWidth())) {
-				spaceShip.setCurrentX(CANVAS_WIDTH - spaceShip.getWidth());
-			} else {
-				spaceShip.setCurrentX(updatedX);
-			}
-		}
 	}
 
 
@@ -332,7 +304,6 @@ public class Main extends Application {
 
 	public void fireProjectile() {
 		// Required.
-		addNewProjectile(spaceShip.getCurrentX() + (gameAssetWidth / 2), spaceShip.getCurrentY());
 	}
 
 
@@ -379,6 +350,62 @@ public class Main extends Application {
 		// Implementation provided. No need to alter.
 		launch(args);
 	}
+
+
+
+
+	private List<Projectile> northAnimList = new ArrayList<Projectile>();
+	private List<Projectile> southAnimList = new ArrayList<Projectile>();
+	public void placeHolderAnimation() {
+		graphicsObject.setFill(Color.BLACK);
+		graphicsObject.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+		int offset = (int) (CANVAS_WIDTH / 20);
+		if (northAnimList.size() == 0) {
+			double xCoord = offset;
+			double yCoord = CANVAS_HEIGHT;
+			for (int x = 0; x < 10; x ++ ) {
+				Projectile p = new Projectile(xCoord,yCoord);
+				northAnimList.add(p);
+				xCoord += (CANVAS_WIDTH / 10);
+			}
+		}
+		if (southAnimList.size() == 0) {
+			double xCoord = offset;
+			double yCoord = 0;
+			for (int x = 0; x < 10; x ++ ) {
+				Projectile p = new Projectile(xCoord,yCoord);
+				southAnimList.add(p);
+				xCoord += (CANVAS_WIDTH / 10);
+			}
+		}
+		for (int x = 0; x < northAnimList.size(); x ++ ) {
+			Projectile p = northAnimList.get(x);
+			graphicsObject.setFill(Color.CHARTREUSE);
+			graphicsObject.fillOval(p.getCurrentX(), p.getCurrentY(), p.getWidth(), p.getHeight());
+		}
+		for (int x = 0; x < southAnimList.size(); x ++ ) {
+			Projectile p = southAnimList.get(x);
+			graphicsObject.setFill(Color.CHARTREUSE);
+			graphicsObject.fillOval(p.getCurrentX(), p.getCurrentY(), p.getWidth(), p.getHeight());
+		}
+		Iterator<Projectile> northIterator = northAnimList.iterator();
+		while (northIterator.hasNext()) {
+			Projectile p = northIterator.next();
+			p.setCurrentY(p.getCurrentY() - ((p.getTravelRate() * CANVAS_HEIGHT)/2));
+			if (p.getCurrentY() <= 0) {
+				northIterator.remove();
+			} 
+		}
+		Iterator<Projectile> southIterator = southAnimList.iterator();
+		while (southIterator.hasNext()) {
+			Projectile p = southIterator.next();
+			p.setCurrentY(p.getCurrentY() + ((p.getTravelRate() * CANVAS_HEIGHT)/2));
+			if (p.getCurrentY() >= CANVAS_HEIGHT) {
+				southIterator.remove();
+			} 
+		}
+	}
+
 
 
 
