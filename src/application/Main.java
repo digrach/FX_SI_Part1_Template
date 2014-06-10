@@ -51,7 +51,13 @@ public class Main extends Application {
 	// used by aliens and spaceship.
 	private double gameAssetWidth;
 	private double gameAssetHeight;
-	
+		
+	private final int TOTAL_NUM_OF_ALIENS = 15;
+	private final int NUM_OF_ALIENS_ON_ROW = 5;
+	private double assetSpacerWidth; // The space between each alien.
+	private double assetSpacerHeight; // The space between each row of aliens.
+	private double fleetTravelRate; 
+	private String fleetDirection;
 	private boolean gameOver;
 
 
@@ -81,6 +87,8 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 
 
@@ -90,7 +98,11 @@ public class Main extends Application {
 		playerScore = 0;
 		gameAssetWidth = 0;
 		gameAssetHeight = 0;
-		gameOver = false;
+		assetSpacerWidth = 0;
+		assetSpacerHeight = 0;
+		fleetTravelRate = 0;
+		fleetDirection = "east"; 
+		gameOver = false; 
 		initialiseGameAssetDimensions();
 		initialiseSpaceShipPosition();
 		initialiseAlienFleetPosition();
